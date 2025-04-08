@@ -9,6 +9,7 @@ on:
     - master
     # And on `ci-full` to allow running time-consuming checks.
     - ci-full
+    - ci-test
   # Every monday at 09:00 in the morning
   schedule:
   - cron: '0 9 * * MON'
@@ -626,8 +627,6 @@ jobs:
           runtime: gnustep-1-9
           libobjc2: "1.9"
         - name: Test GNUStep with libobjc2 v2.0
-          # Fails for some reason on Ubuntu 22
-          os: ubuntu-20.04
           target: x86_64-unknown-linux-gnu
           runtime: gnustep-2-0
           libobjc2: "2.0"
@@ -638,9 +637,6 @@ jobs:
           libobjc2: "2.1"
           # fuzz: true # Disable fuzzing for now, it fails because it tries to load all symbols in Foundation
         - name: Test GNUStep 32bit
-          # Ubuntu 22 image doesn't have the required C++ libraries
-          # installed for 32-bit
-          os: ubuntu-20.04
           target: i686-unknown-linux-gnu
           cflags: -m32
           configureflags: --target=x86-pc-linux-gnu
@@ -689,7 +685,7 @@ jobs:
           ~/extern/lib
           ~/extern/include
         # Change this key if we start caching more things
-        key: extern-${{ github.job }}-${{ matrix.name }}-v3
+        key: extern-${{ github.job }}-${{ matrix.name }}-v4
 
     - name: Setup environment
       # These add to PATH-like variables, so they can always be set
